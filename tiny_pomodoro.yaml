@@ -1,0 +1,16 @@
+---
+pomodoro:
+  short: 300000
+  long: 1800000
+  focus: 1800000
+  rounds: 4
+style:
+  background: "#2f384b"
+  foreground: "#f0ead6"
+  circle_focus: "#f25a48"
+  circle_short_break: "#68d6ce"
+  circle_long_break: "#8bbd78"
+  rounds: "#eec61f"
+notification: test_sound.wav
+muted: false
+portable: true

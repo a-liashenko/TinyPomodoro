@@ -1,0 +1,32 @@
+[package]
+authors = ["Aleksandr Liashenko <icealexxx@gmail.com>"]
+edition = "2018"
+name = "tiny_pomodoro"
+version = "0.1.0"
+
+[dependencies]
+anyhow = "1.0.51"
+chrono = {version = "0.4", features = ["serde"]}
+colorsys = "0.6.5"
+dirs = "4.0.0"
+serde = {version = "1.0.132", features = ["derive"]}
+serde_yaml = "0.8"
+
+# Sound
+rodio = {version = "0.14.0", features = ["wav"]}
+
+# Ui
+eframe = {version = "0.15.0", features = ["egui_glow"]}
+
+# SVG Render
+resvg = "0.19.0"
+tiny-skia = "0.6.1"
+usvg = "0.19.0"
+
+[features]
+default = []
+
+[profile.release]
+codegen-units = 1
+lto = true
+panic = "abort"

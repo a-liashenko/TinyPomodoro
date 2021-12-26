@@ -1,12 +1,12 @@
-use self::components::{AppComponent, MainPage, SettingsPage, Titlebar, UIPages};
+use self::components::UIPages;
 use self::widgets::CircleConfig;
-use crate::config::AppConfig;
+use crate::config::{Actions, AppConfig};
 use crate::pomodoro::Status;
 use crate::{pomodoro::Pomodoro, resources::ResourceLoader};
-use eframe::egui::{CentralPanel, CtxRef, Stroke};
-use eframe::epi::{Frame, Storage};
+use eframe::egui::{CtxRef, Stroke};
 
 mod components;
+mod egui_app;
 mod widgets;
 
 pub struct App {
@@ -17,6 +17,13 @@ pub struct App {
     circle: CircleConfig,
 
     page: UIPages,
+}
+
+impl Default for App {
+    fn default() -> Self {
+        let cfg = AppConfig::default();
+        Self::from_config(cfg)
+    }
 }
 
 impl App {
@@ -53,58 +60,29 @@ impl App {
 
         Stroke::new(10.0, color)
     }
-}
 
-impl Default for App {
-    fn default() -> Self {
-        let cfg = AppConfig::default();
-        Self::from_config(cfg)
-    }
-}
+    fn process_hotkeys(&mut self, ctx: &CtxRef) {
+        let input = ctx.input();
+        let action = match self.resources.hotkeys().next_action(input) {
+            Some(v) => v,
+            None => return,
+        };
 
-impl eframe::epi::App for App {
-    fn name(&self) -> &str {
-        crate::defines::APP_NAME
-    }
-
-    fn clear_color(&self) -> eframe::egui::Rgba {
-        self.config.style.background.into()
+        match action {
+            Actions::ToggleTimer => self.pomodoro.toggle(),
+        }
     }
 
-    fn on_exit(&mut self) {
-        // TODO: Show error
-        let _err = self.config.save();
-    }
+    fn process_timer(&mut self) {
+        let status = match self.pomodoro.try_next() {
+            Some(v) => v,
+            None => return,
+        };
 
-    fn setup(&mut self, ctx: &CtxRef, _frame: &mut Frame<'_>, _storage: Option<&dyn Storage>) {
-        ctx.set_visuals(self.resources.visuals().clone());
-        ctx.set_fonts(self.resources.fonts());
-        // ctx.set_debug_on_hover(true);
-
-        let alloc = _frame.tex_allocator();
-        self.resources
-            .load_icons(alloc)
-            .expect("Failed to load icons");
-    }
-
-    fn update(&mut self, ctx: &CtxRef, _frame: &mut Frame<'_>) {
-        if let Some(status) = self.pomodoro.try_next() {
-            if !self.config.muted {
-                self.resources.notification().play();
-            }
-
-            self.circle.foreground = Some(Self::status_stroke(&self.config, status));
+        if !self.config.muted {
+            self.resources.notification().play();
         }
 
-        CentralPanel::default().show(ctx, |ui| {
-            ui.add_space(15.0);
-            Titlebar::add(self, ui);
-            ui.add_space(15.0);
-
-            match self.page {
-                UIPages::Main => MainPage::add(self, ui),
-                UIPages::Settings => SettingsPage::add(self, ui),
-            }
-        });
+        self.circle.foreground = Some(Self::status_stroke(&self.config, status));
     }
 }

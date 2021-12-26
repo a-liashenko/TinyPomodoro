@@ -1,24 +1,27 @@
-use self::{notification::Notification, theme::Theme};
+use self::{hotkeys::Hotkeys, notification::Notification, runtime::Runtime, theme::Theme};
 use crate::config::AppConfig;
 use anyhow::Result;
 use eframe::{
     egui::{FontDefinitions, Style, Visuals},
-    epi::TextureAllocator,
+    epi::Frame,
 };
 
 pub mod icon;
 
 mod fonts;
+mod hotkeys;
 mod icon_loader;
 mod notification;
+mod runtime;
 mod theme;
 
 pub use self::icon_loader::Icons;
 
 pub struct ResourceLoader {
     theme: Theme,
-    icons: Option<Icons>,
     notification: Notification,
+    hotkeys: Hotkeys,
+    runtime: Option<Runtime>,
 }
 
 impl ResourceLoader {
@@ -33,15 +36,21 @@ impl ResourceLoader {
         ResourceLoader {
             notification,
             theme: Theme::new(&config.style),
-            icons: None,
+            runtime: None,
+            hotkeys: Hotkeys::new(config),
         }
     }
 
-    pub fn load_icons(&mut self, alloc: &mut dyn TextureAllocator) -> Result<()> {
-        if self.icons.is_none() {
-            let icons = Icons::preload(alloc)?;
-            self.icons = Some(icons);
-        }
+    fn runtime(&self) -> &Runtime {
+        // TODO: Unwrap unchecked?
+        self.runtime
+            .as_ref()
+            .expect("Resources runtime not allocated")
+    }
+
+    pub fn load_runtime(&mut self, cfg: &AppConfig, frame: &mut Frame<'_>) -> Result<()> {
+        let runtime = Runtime::new(cfg, frame)?;
+        self.runtime = Some(runtime);
         Ok(())
     }
 
@@ -52,15 +61,20 @@ impl ResourceLoader {
     pub fn visuals(&self) -> &Visuals {
         self.theme.visuals()
     }
+
     pub fn slider(&self) -> &Style {
         self.theme.slider()
     }
 
-    pub fn icons(&self) -> &Icons {
-        self.icons.as_ref().unwrap()
-    }
-
     pub fn notification(&mut self) -> &mut Notification {
         &mut self.notification
+    }
+
+    pub fn icons(&self) -> &Icons {
+        &self.runtime().icons
+    }
+
+    pub fn hotkeys(&mut self) -> &mut Hotkeys {
+        &mut self.hotkeys
     }
 }

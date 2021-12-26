@@ -15,7 +15,8 @@ impl AppComponent for Timer {
                 let padding = (ui.available_width() - diameter) / 2.0;
                 ui.add_space(padding);
 
-                let timer = PomodoroTimer::new(&ctx.pomodoro, &ctx.circle);
+                let is_paused = !ctx.pomodoro.is_running();
+                let timer = PomodoroTimer::new(is_paused, &ctx.pomodoro, &ctx.circle);
                 ui.add(timer);
             });
         });

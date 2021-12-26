@@ -17,11 +17,12 @@ pub struct PomodoroTimer<'a> {
     time_left: String,
     status: String,
     angle: f32,
+    is_paused: bool,
     circle: &'a CircleConfig,
 }
 
 impl<'a> PomodoroTimer<'a> {
-    pub fn new(pomodoro: &Pomodoro, circle: &'a CircleConfig) -> Self {
+    pub fn new(is_paused: bool, pomodoro: &Pomodoro, circle: &'a CircleConfig) -> Self {
         let status = pomodoro.status();
         let angle = {
             let duration = pomodoro.config().get_duration(&status);
@@ -35,6 +36,7 @@ impl<'a> PomodoroTimer<'a> {
         Self {
             angle,
             circle,
+            is_paused,
             time_left: time_text,
             status: status_text.into(),
         }
@@ -63,7 +65,7 @@ impl<'a> Widget for PomodoroTimer<'a> {
             config: Cow::Borrowed(self.circle),
         };
 
-        if self.angle < 360.0 {
+        if self.angle < 360.0 && !self.is_paused {
             ui.ctx().request_repaint()
         }
 

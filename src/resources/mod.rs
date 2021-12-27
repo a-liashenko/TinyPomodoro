@@ -66,6 +66,10 @@ impl ResourceLoader {
         self.theme.slider()
     }
 
+    pub fn checkbox(&self) -> &Style {
+        self.theme.checkbox()
+    }
+
     pub fn notification(&mut self) -> &mut Notification {
         &mut self.notification
     }

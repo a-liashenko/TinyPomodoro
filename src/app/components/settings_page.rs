@@ -1,4 +1,4 @@
-use eframe::egui::{Color32, Response, Style, Ui};
+use eframe::egui::{Color32, InnerResponse, Response, Style, Ui};
 
 use super::AppComponent;
 use crate::app::{
@@ -6,7 +6,8 @@ use crate::app::{
     App,
 };
 
-const PADDING: f32 = 25.0;
+const VERTICAL_PADDING: f32 = 25.0;
+const LEFT_PADDING: f32 = 25.0;
 
 // TODO: Cache sliders in Vec
 pub struct SettingsPage;
@@ -27,6 +28,13 @@ impl SettingsPage {
 
         response.unwrap()
     }
+
+    fn paddig<R>(ui: &mut Ui, add: impl FnOnce(&mut Ui) -> R) -> InnerResponse<R> {
+        ui.horizontal(|ui| {
+            ui.add_space(LEFT_PADDING);
+            add(ui)
+        })
+    }
 }
 
 impl AppComponent for SettingsPage {
@@ -42,7 +50,7 @@ impl AppComponent for SettingsPage {
             duration: &mut ctx.config.pomodoro.short,
         };
         ui.add(slider);
-        ui.add_space(PADDING);
+        ui.add_space(VERTICAL_PADDING);
 
         let slider = PomodoroSlider {
             title: "Long break".into(),
@@ -51,7 +59,7 @@ impl AppComponent for SettingsPage {
             duration: &mut ctx.config.pomodoro.long,
         };
         ui.add(slider);
-        ui.add_space(PADDING);
+        ui.add_space(VERTICAL_PADDING);
 
         let slider = PomodoroSlider {
             title: "Focus".into(),
@@ -60,7 +68,7 @@ impl AppComponent for SettingsPage {
             duration: &mut ctx.config.pomodoro.focus,
         };
         ui.add(slider);
-        ui.add_space(PADDING);
+        ui.add_space(VERTICAL_PADDING);
 
         let mut val: f64 = ctx.config.pomodoro.rounds as f64;
         let slider = Self::draw_rounds_slider(
@@ -72,5 +80,13 @@ impl AppComponent for SettingsPage {
         if slider.changed() {
             ctx.config.pomodoro.rounds = val as u16;
         }
+        ui.add_space(VERTICAL_PADDING);
+
+        Self::paddig(ui, |ui| {
+            ui.set_style(ctx.resources.checkbox().clone());
+            let ch = eframe::egui::Checkbox::new(&mut ctx.config.portable, "Portable mode")
+                .text_style(eframe::egui::TextStyle::Monospace);
+            ui.add(ch);
+        });
     }
 }

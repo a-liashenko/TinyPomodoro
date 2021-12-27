@@ -1,9 +1,10 @@
 use crate::config::AppStyle;
-use eframe::egui::{Style, Visuals};
+use eframe::egui::{Stroke, Style, Visuals};
 
 pub struct Theme {
     visuals: Visuals,
     slider: Style,
+    checkbox: Style,
 }
 
 impl Theme {
@@ -17,14 +18,32 @@ impl Theme {
             visuals: visuals.clone(),
             ..Default::default()
         };
-        slider.visuals.widgets.inactive.bg_fill = cfg.circle_focus;
+        slider.visuals.widgets.inactive.bg_fill = cfg.rounds;
         slider.visuals.widgets.inactive.fg_stroke.width = 0.0;
         slider.visuals.widgets.inactive.expansion = 3.0;
 
         slider.visuals.widgets.hovered = slider.visuals.widgets.inactive;
         slider.visuals.widgets.active = slider.visuals.widgets.inactive;
 
-        Self { visuals, slider }
+        let mut checkbox = Style {
+            visuals: visuals.clone(),
+            ..Default::default()
+        };
+        checkbox.visuals.widgets.noninteractive.fg_stroke.color = cfg.foreground;
+        checkbox.visuals.widgets.noninteractive.bg_stroke.width = 0.5;
+        checkbox.visuals.widgets.noninteractive.bg_stroke.color = cfg.foreground;
+        checkbox.visuals.widgets.noninteractive.expansion = 1.0;
+        checkbox.spacing.icon_spacing = 10.0;
+
+        checkbox.visuals.widgets.inactive = checkbox.visuals.widgets.noninteractive;
+        checkbox.visuals.widgets.active = checkbox.visuals.widgets.noninteractive;
+        checkbox.visuals.widgets.hovered = checkbox.visuals.widgets.noninteractive;
+
+        Self {
+            visuals,
+            slider,
+            checkbox,
+        }
     }
 
     pub fn visuals(&self) -> &Visuals {
@@ -33,5 +52,9 @@ impl Theme {
 
     pub fn slider(&self) -> &Style {
         &self.slider
+    }
+
+    pub fn checkbox(&self) -> &Style {
+        &self.checkbox
     }
 }

@@ -19,7 +19,7 @@ pub struct Icons {
 }
 
 impl Icons {
-    pub fn preload(alloc: &mut dyn TextureAllocator) -> Result<Self> {
+    pub fn preload(alloc: &impl TextureAllocator) -> Result<Self> {
         let this = Self {
             play: Icon::from_svg(ICON_PLAY, (64, 64), alloc)?,
             pause: Icon::from_svg(ICON_PAUSE, (64, 64), alloc)?,

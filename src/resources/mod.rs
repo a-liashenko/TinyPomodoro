@@ -48,7 +48,7 @@ impl ResourceLoader {
             .expect("Resources runtime not allocated")
     }
 
-    pub fn load_runtime(&mut self, cfg: &AppConfig, frame: &mut Frame<'_>) -> Result<()> {
+    pub fn load_runtime(&mut self, cfg: &AppConfig, frame: &Frame) -> Result<()> {
         let runtime = Runtime::new(cfg, frame)?;
         self.runtime = Some(runtime);
         Ok(())

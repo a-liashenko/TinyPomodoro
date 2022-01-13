@@ -8,9 +8,8 @@ pub struct Runtime {
 }
 
 impl Runtime {
-    pub fn new(_cfg: &AppConfig, frame: &mut Frame<'_>) -> Result<Self> {
-        let allocator = frame.tex_allocator();
-        let icons = Icons::preload(allocator)?;
+    pub fn new(_cfg: &AppConfig, frame: &Frame) -> Result<Self> {
+        let icons = Icons::preload(frame)?;
         Ok(Self { icons })
     }
 }

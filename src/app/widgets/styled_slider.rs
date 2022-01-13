@@ -1,4 +1,4 @@
-use eframe::egui::{Label, Response, Slider, Style, Ui, Widget};
+use eframe::egui::{Label, Response, RichText, Slider, Style, Ui, Widget};
 
 pub type Formatter = fn(f64) -> String;
 
@@ -42,7 +42,8 @@ impl<'a> Widget for StyledSlider<'a> {
         ui.vertical(|ui| {
             ui.horizontal(|ui| {
                 let space = (ui.available_width() - 30.0, ui.available_height());
-                ui.add_sized(space, Label::new(&self.title).monospace());
+                let text = RichText::new(&self.title).monospace();
+                ui.add_sized(space, Label::new(text));
             });
 
             ui.add_space(15.0);

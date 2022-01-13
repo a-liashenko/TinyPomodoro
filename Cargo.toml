@@ -16,7 +16,7 @@ serde_yaml = "0.8"
 rodio = {version = "0.14.0", features = ["wav"], default-features = false}
 
 # Ui
-eframe = {version = "0.15.0", features = ["egui_glow"], default-features = false}
+eframe = {version = "0.16.0", features = ["egui_glow"], default-features = false}
 
 # SVG Render
 resvg = "0.19.0"
@@ -26,7 +26,7 @@ usvg = "0.19.0"
 [patch.crates-io]
 # Forward DeviceEvent::Keybord to the app for system-wide hotkeys
 # Be careful with Input widgets 
-egui_glow = {git = "https://github.com/AlexxxRu/egui_glow_old.git", branch = "master"}
+# egui_glow = {git = "https://github.com/AlexxxRu/egui_glow_old.git", branch = "master"}
 
 [profile.release]
 codegen-units = 1

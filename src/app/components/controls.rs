@@ -1,4 +1,4 @@
-use eframe::egui::{Layout, Response, Ui};
+use eframe::egui::{Layout, Response, RichText, Ui};
 
 use super::AppComponent;
 use crate::app::widgets::{IconButton, IconToggle};
@@ -15,7 +15,8 @@ impl Controls {
         ui.label(text);
         ui.add_space(3.0);
 
-        let reset = Label::new("Reset").small().sense(Sense::click());
+        let reset = RichText::new("Reset").small();
+        let reset = Label::new(reset).sense(Sense::click());
         let reset = ui.add(reset);
         reset.on_hover_cursor(CursorIcon::PointingHand)
     }

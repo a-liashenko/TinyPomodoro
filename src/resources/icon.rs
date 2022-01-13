@@ -1,7 +1,7 @@
 use anyhow::Result;
 use eframe::{
-    egui::{Color32, TextureId},
-    epi::TextureAllocator,
+    egui::TextureId,
+    epi::{Image, TextureAllocator},
 };
 use tiny_skia::Pixmap;
 use usvg::FitTo;
@@ -20,15 +20,12 @@ fn render_svg(svg: &[u8], (width, height): (u32, u32)) -> Result<Pixmap> {
     Ok(pixmap)
 }
 
-fn svg2texture(svg: &[u8], size: (u32, u32), tex: &mut dyn TextureAllocator) -> Result<TextureId> {
+fn svg2texture(svg: &[u8], size: (u32, u32), tex: &dyn TextureAllocator) -> Result<TextureId> {
     let pixmap = render_svg(svg, size)?;
-    let pixels: Vec<_> = pixmap
-        .pixels()
-        .iter()
-        .map(|p| Color32::from_rgba_premultiplied(p.red(), p.green(), p.blue(), p.alpha()))
-        .collect();
+    let pixels = pixmap.data();
 
-    let texture = tex.alloc_srgba_premultiplied((size.0 as usize, size.1 as usize), &pixels);
+    let img = Image::from_rgba_unmultiplied([size.0 as usize, size.1 as usize], pixels);
+    let texture = tex.alloc(img);
     Ok(texture)
 }
 
@@ -39,11 +36,7 @@ pub struct Icon {
 }
 
 impl Icon {
-    pub fn from_svg(
-        bytes: &[u8],
-        size: (u32, u32),
-        alloc: &mut dyn TextureAllocator,
-    ) -> Result<Self> {
+    pub fn from_svg(bytes: &[u8], size: (u32, u32), alloc: &impl TextureAllocator) -> Result<Self> {
         let texture = svg2texture(bytes, size, alloc)?;
         let this = Self {
             width: size.0,

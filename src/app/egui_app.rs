@@ -1,5 +1,5 @@
 use eframe::{
-    egui::{CentralPanel, CtxRef},
+    egui::{CentralPanel, Context},
     epi::{Frame, Storage},
 };
 
@@ -12,7 +12,7 @@ impl eframe::epi::App for App {
         let _err = self.config.save();
     }
 
-    fn setup(&mut self, ctx: &CtxRef, frame: &Frame, _storage: Option<&dyn Storage>) {
+    fn setup(&mut self, ctx: &Context, frame: &Frame, _storage: Option<&dyn Storage>) {
         ctx.set_visuals(self.resources.visuals().clone());
         ctx.set_fonts(self.resources.fonts());
         // ctx.set_debug_on_hover(true);
@@ -22,7 +22,7 @@ impl eframe::epi::App for App {
             .expect("Failed to load Resources::Runtime");
     }
 
-    fn update(&mut self, ctx: &CtxRef, _frame: &Frame) {
+    fn update(&mut self, ctx: &Context, _frame: &Frame) {
         self.process_timer();
         self.process_hotkeys(ctx);
 

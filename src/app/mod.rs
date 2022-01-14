@@ -3,7 +3,8 @@ use self::widgets::CircleConfig;
 use crate::config::{Actions, AppConfig};
 use crate::pomodoro::Status;
 use crate::{pomodoro::Pomodoro, resources::ResourceLoader};
-use eframe::egui::{CtxRef, Stroke};
+
+use eframe::egui::{Context, Stroke};
 
 mod components;
 mod egui_app;
@@ -61,15 +62,16 @@ impl App {
         Stroke::new(10.0, color)
     }
 
-    fn process_hotkeys(&mut self, ctx: &CtxRef) {
+    fn process_hotkeys(&mut self, ctx: &Context) {
         let input = ctx.input();
-        let action = match self.resources.hotkeys().next_action(input) {
+        let action = match self.resources.hotkeys().next_action(&input) {
             Some(v) => v,
             None => return,
         };
 
         match action {
             Actions::ToggleTimer => self.pomodoro.toggle(),
+            Actions::ResetTimer => self.pomodoro.reset(),
         }
     }
 

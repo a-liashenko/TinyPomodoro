@@ -3,7 +3,7 @@ use eframe::{
     epi::{Frame, Storage},
 };
 
-use super::components::{AppComponent, MainPage, SettingsPage, Titlebar, UIPages};
+use super::components::{AppComponent, MainPage, SettingsPage, Titlebar, Topbar, UIPages};
 use super::App;
 
 impl eframe::epi::App for App {
@@ -22,13 +22,14 @@ impl eframe::epi::App for App {
             .expect("Failed to load Resources::Runtime");
     }
 
-    fn update(&mut self, ctx: &Context, _frame: &Frame) {
+    fn update(&mut self, ctx: &Context, frame: &Frame) {
         self.process_timer();
         self.process_hotkeys(ctx);
 
         CentralPanel::default().show(ctx, |ui| {
+            Titlebar::with_frame(self, ui, frame);
             ui.add_space(15.0);
-            Titlebar::add(self, ui);
+            Topbar::add(self, ui);
             ui.add_space(15.0);
 
             match self.page {

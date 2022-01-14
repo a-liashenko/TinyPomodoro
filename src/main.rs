@@ -14,7 +14,8 @@ use eframe::egui::vec2;
 fn main() {
     let native_options = eframe::NativeOptions {
         resizable: false,
-        initial_window_size: Some(vec2(360.0, 480.0)),
+        initial_window_size: Some(vec2(360.0, 520.0)),
+        decorated: false,
         ..Default::default()
     };
 

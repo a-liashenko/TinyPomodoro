@@ -31,7 +31,7 @@ impl Controls {
     }
 
     pub fn draw_skip(ui: &mut Ui, icons: &Icons) -> Response {
-        let btn = IconButton::new(&icons.skip).frame(false);
+        let btn = IconButton::new(&icons.skip);
         ui.add(btn)
     }
 }

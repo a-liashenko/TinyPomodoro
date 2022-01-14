@@ -10,13 +10,8 @@ impl<'a> IconButton<'a> {
     pub fn new(icon: &'a Icon) -> Self {
         Self {
             icon,
-            with_frame: true,
+            with_frame: false,
         }
-    }
-
-    pub fn frame(mut self, enabled: bool) -> Self {
-        self.with_frame = enabled;
-        self
     }
 }
 

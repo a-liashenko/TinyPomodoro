@@ -39,8 +39,11 @@ impl AppComponent for Titlebar {
 
         // TODO: Check remove spacing from default Style
         let (response, painter) = ui.allocate_painter((360., 2.).into(), Sense::hover());
-        let rect = response.rect;
+        if response.hovered() {
+            frame.drag_window()
+        }
 
+        let rect = response.rect;
         let stroke = Stroke::new(0.5, Color32::from_hex_panic("#78909c"));
         let shape = Shape::line_segment([rect.min, rect.max], stroke);
         painter.add(shape);

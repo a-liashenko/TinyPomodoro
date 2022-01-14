@@ -13,6 +13,11 @@ pub mod icons {
 
     pub const ICON_SKIP: &[u8] = include_bytes!("../misc/skip-forward.svg");
     pub const ICON_RESET: &[u8] = include_bytes!("../misc/refresh-ccw.svg");
+
+    pub const ICON_MINIMIZE: &[u8] = include_bytes!("../misc/minus.svg");
+    pub const ICON_CLOSE: &[u8] = include_bytes!("../misc/close.svg");
+    pub const ICON_PIN: &[u8] = include_bytes!("../misc/pin-outline.svg");
+    pub const ICON_PIN_OFF: &[u8] = include_bytes!("../misc/pin-off-outline.svg");
 }
 
 // Thanks https://fonts.google.com/ for fonts

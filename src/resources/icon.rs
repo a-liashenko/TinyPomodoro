@@ -20,7 +20,7 @@ fn render_svg(svg: &[u8], (width, height): (u32, u32)) -> Result<Pixmap> {
     Ok(pixmap)
 }
 
-fn svg2texture(svg: &[u8], size: (u32, u32), tex: &dyn TextureAllocator) -> Result<TextureId> {
+fn svg2texture(svg: &[u8], size: (u32, u32), tex: &impl TextureAllocator) -> Result<TextureId> {
     let pixmap = render_svg(svg, size)?;
     let pixels = pixmap.data();
 

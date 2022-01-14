@@ -16,6 +16,11 @@ pub struct Icons {
     pub skip: Icon,
 
     pub reset: Icon,
+
+    pub minimize: Icon,
+    pub close: Icon,
+    pub pin_on: Icon,
+    pub pin_off: Icon,
 }
 
 impl Icons {
@@ -32,6 +37,11 @@ impl Icons {
             skip: Icon::from_svg(ICON_SKIP, (28, 28), alloc)?,
 
             reset: Icon::from_svg(ICON_RESET, (18, 18), alloc)?,
+
+            close: Icon::from_svg(ICON_CLOSE, (21, 21), alloc)?,
+            minimize: Icon::from_svg(ICON_MINIMIZE, (21, 21), alloc)?,
+            pin_on: Icon::from_svg(ICON_PIN, (21, 21), alloc)?,
+            pin_off: Icon::from_svg(ICON_PIN_OFF, (21, 21), alloc)?,
         };
 
         Ok(this)

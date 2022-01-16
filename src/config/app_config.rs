@@ -17,6 +17,7 @@ pub struct AppConfig {
     pub muted: bool,
     pub portable: bool,
     pub always_on_top: bool,
+    pub timer_notification: bool,
 }
 
 impl AppConfig {
@@ -101,6 +102,7 @@ impl Default for AppConfig {
             notification: Default::default(),
             style: Default::default(),
             always_on_top: false,
+            timer_notification: false,
         }
     }
 }

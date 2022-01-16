@@ -1,4 +1,4 @@
-use eframe::egui::{Color32, InnerResponse, Response, Style, Ui};
+use eframe::egui::{Checkbox, Color32, InnerResponse, Response, Style, Ui};
 
 use super::AppComponent;
 use crate::app::{
@@ -82,10 +82,17 @@ impl AppComponent for SettingsPage {
         }
         ui.add_space(VERTICAL_PADDING);
 
+        // Self::paddig(ui, |ui| {
+        //     let mut style = ctx.resources.checkbox().clone();
+        //     style.spacing.icon_spacing = 0.0;
+        //     ui.set_style(style);
+        //     ui.add_space(-10.0);
+        //     ui.monospace("Testing");
+        // });
+
         Self::paddig(ui, |ui| {
             ui.set_style(ctx.resources.checkbox().clone());
-            let ch = eframe::egui::Checkbox::new(&mut ctx.config.portable, "Portable mode")
-                .text_style(eframe::egui::TextStyle::Monospace);
+            let ch = Checkbox::new(&mut ctx.config.timer_notification, "Notify on timer end");
             ui.add(ch);
         });
     }

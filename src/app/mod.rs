@@ -93,8 +93,11 @@ impl App {
         }
 
         self.circle.foreground = Some(Self::status_stroke(&self.config, status));
-        self.window()
-            .request_user_attention(Some(UserAttentionType::Critical));
+
+        if self.config.timer_notification {
+            self.window()
+                .request_user_attention(Some(UserAttentionType::Critical));
+        }
     }
 
     fn window(&self) -> &Window {

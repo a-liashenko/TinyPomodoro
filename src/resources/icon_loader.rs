@@ -38,10 +38,10 @@ impl Icons {
 
             reset: Icon::from_svg(ICON_RESET, (18, 18), alloc)?,
 
-            close: Icon::from_svg(ICON_CLOSE, (21, 21), alloc)?,
-            minimize: Icon::from_svg(ICON_MINIMIZE, (21, 21), alloc)?,
-            pin_on: Icon::from_svg(ICON_PIN, (21, 21), alloc)?,
-            pin_off: Icon::from_svg(ICON_PIN_OFF, (21, 21), alloc)?,
+            close: Icon::from_svg(ICON_CLOSE, (16, 16), alloc)?,
+            minimize: Icon::from_svg(ICON_MINIMIZE, (16, 16), alloc)?,
+            pin_on: Icon::from_svg(ICON_PIN, (16, 16), alloc)?,
+            pin_off: Icon::from_svg(ICON_PIN_OFF, (16, 16), alloc)?,
         };
 
         Ok(this)

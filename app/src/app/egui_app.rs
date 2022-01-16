@@ -25,7 +25,7 @@ impl eframe::epi::App for App {
 
     fn update(&mut self, ctx: &Context, frame: &Frame) {
         self.process_timer();
-        self.process_hotkeys(ctx);
+        self.process_hotkeys();
 
         CentralPanel::default().show(ctx, |ui| {
             Titlebar::with_frame(self, ui, frame);

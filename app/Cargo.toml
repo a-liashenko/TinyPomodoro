@@ -22,3 +22,6 @@ eframe = {version = "0.16.0", features = ["egui_glow"], default-features = false
 resvg = "0.19.0"
 tiny-skia = "0.6.1"
 usvg = "0.19.0"
+
+# hotkeys
+hotkeys = {path = "../hotkeys"}

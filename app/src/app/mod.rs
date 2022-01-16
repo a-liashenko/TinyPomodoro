@@ -6,7 +6,7 @@ use crate::config::{Actions, AppConfig};
 use crate::pomodoro::Status;
 use crate::{pomodoro::Pomodoro, resources::ResourceLoader};
 
-use eframe::egui::{Context, Stroke};
+use eframe::egui::Stroke;
 use eframe::{winit::window::Window, GlWindow};
 
 mod components;
@@ -68,9 +68,8 @@ impl App {
         Stroke::new(10.0, color)
     }
 
-    fn process_hotkeys(&mut self, ctx: &Context) {
-        let input = ctx.input();
-        let action = match self.resources.hotkeys().next_action(&input) {
+    fn process_hotkeys(&mut self) {
+        let action = match self.resources.hotkeys().next_action() {
             Some(v) => v,
             None => return,
         };

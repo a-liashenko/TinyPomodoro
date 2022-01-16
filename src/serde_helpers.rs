@@ -1,12 +1,6 @@
 use chrono::Duration;
 use eframe::egui::Color32;
-use serde::{Deserialize, Deserializer, Serialize};
-
-#[derive(Debug, Serialize, Deserialize)]
-struct Test {
-    #[serde(with = "color")]
-    duration: Color32,
-}
+use serde::{Deserialize, Deserializer};
 
 pub mod duration {
     use super::*;

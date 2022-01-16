@@ -1,0 +1,16 @@
+[package]
+edition = "2021"
+name = "hotkeys"
+version = "0.1.0"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+
+[dependencies.windows]
+features = [
+  "Win32_UI_Input_KeyboardAndMouse",
+  "Win32_Foundation",
+  "Win32_UI_WindowsAndMessaging",
+]
+version = "0.30.0"

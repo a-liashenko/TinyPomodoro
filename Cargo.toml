@@ -1,6 +1,7 @@
 [workspace]
 members = [
   "app",
+  "hotkeys",
 ]
 
 [patch.crates-io]

@@ -13,7 +13,7 @@ impl<'a> IconToggle<'a> {
         Self {
             enabled,
             disabled,
-            with_frame: true,
+            with_frame: false,
             toggled,
         }
     }

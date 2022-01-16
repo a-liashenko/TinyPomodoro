@@ -29,7 +29,7 @@ impl AppComponent for Titlebar {
                     ctx.window().set_minimized(true);
                 };
 
-                let pin = IconToggle::new(&icons.pin_on, &icons.pin_off, ctx.config.always_on_top);
+                let pin = IconToggle::new(&icons.pin_off, &icons.pin_on, ctx.config.always_on_top);
                 if ui.add(pin).clicked() {
                     ctx.config.always_on_top = !ctx.config.always_on_top;
                     ctx.window().set_always_on_top(ctx.config.always_on_top);

@@ -1,6 +1,7 @@
 use eframe::{
     egui::{CentralPanel, Context},
     epi::{Frame, Storage},
+    GlWindow, WithGL,
 };
 
 use super::components::{AppComponent, MainPage, SettingsPage, Titlebar, Topbar, UIPages};
@@ -49,5 +50,11 @@ impl eframe::epi::App for App {
 
     fn clear_color(&self) -> eframe::egui::Rgba {
         self.config.style.background.into()
+    }
+}
+
+impl WithGL for App {
+    fn set_window(&mut self, window: std::sync::Arc<GlWindow>) {
+        self.window = Some(window);
     }
 }

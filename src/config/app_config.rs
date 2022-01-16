@@ -16,6 +16,7 @@ pub struct AppConfig {
     pub notification: Option<PathBuf>,
     pub muted: bool,
     pub portable: bool,
+    pub always_on_top: bool,
 }
 
 impl AppConfig {
@@ -99,6 +100,7 @@ impl Default for AppConfig {
             portable: false,
             notification: Default::default(),
             style: Default::default(),
+            always_on_top: false,
         }
     }
 }

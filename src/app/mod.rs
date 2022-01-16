@@ -1,3 +1,5 @@
+use std::sync::Arc;
+
 use self::components::UIPages;
 use self::widgets::CircleConfig;
 use crate::config::{Actions, AppConfig};
@@ -5,12 +7,14 @@ use crate::pomodoro::Status;
 use crate::{pomodoro::Pomodoro, resources::ResourceLoader};
 
 use eframe::egui::{Context, Stroke};
+use eframe::{GlWindow, Window};
 
 mod components;
 mod egui_app;
 mod widgets;
 
 pub struct App {
+    window: Option<Arc<GlWindow>>,
     resources: ResourceLoader,
     config: AppConfig,
 
@@ -42,6 +46,8 @@ impl App {
         };
 
         Self {
+            window: None,
+
             config,
             resources,
 
@@ -86,5 +92,9 @@ impl App {
         }
 
         self.circle.foreground = Some(Self::status_stroke(&self.config, status));
+    }
+
+    fn window(&self) -> &Window {
+        self.window.as_ref().unwrap().window()
     }
 }

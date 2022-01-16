@@ -2,6 +2,7 @@ use eframe::egui::{Color32, Layout, Rect, Sense, Shape, Stroke, Ui};
 use eframe::epi::Frame;
 
 use super::AppComponent;
+use crate::app::widgets::IconToggle;
 use crate::app::{widgets::IconButton, App};
 use crate::color::ColorHex;
 
@@ -15,20 +16,27 @@ impl AppComponent for Titlebar {
     type Context = App;
 
     fn with_frame(ctx: &mut Self::Context, ui: &mut Ui, frame: &Frame) {
-        let icons = ctx.resources.icons();
         let width = ui.available_width();
 
         ui.horizontal(|ui| {
             ui.with_layout(Layout::right_to_left(), |ui| {
+                let icons = ctx.resources.icons();
+
                 if ui.add(IconButton::new(&icons.close)).clicked() {
                     frame.quit();
                 };
-                ui.add(IconButton::new(&icons.minimize));
-                ui.add(IconButton::new(&icons.pin_on));
-                // ui.add(IconButton::new(&icons.pin_off).frame(false));
+                if ui.add(IconButton::new(&icons.minimize)).clicked() {
+                    ctx.window().set_minimized(true);
+                };
+
+                let pin = IconToggle::new(&icons.pin_on, &icons.pin_off, ctx.config.always_on_top);
+                if ui.add(pin).clicked() {
+                    ctx.config.always_on_top = !ctx.config.always_on_top;
+                    ctx.window().set_always_on_top(ctx.config.always_on_top);
+                };
             });
 
-            let rect = Rect::from_min_size((0., 0.).into(), (width - 21. * 4., 21.).into());
+            let rect = Rect::from_min_size((0., 0.).into(), (width - 21. * 3., 21.).into());
             let response = ui.allocate_rect(rect, Sense::hover());
             if response.hovered() {
                 frame.drag_window();
@@ -40,7 +48,7 @@ impl AppComponent for Titlebar {
         // TODO: Check remove spacing from default Style
         let (response, painter) = ui.allocate_painter((360., 2.).into(), Sense::hover());
         if response.hovered() {
-            frame.drag_window()
+            frame.drag_window();
         }
 
         let rect = response.rect;

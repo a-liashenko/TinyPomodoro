@@ -36,7 +36,7 @@ pub struct Pomodoro {
     timer: Timer,
     config: PomodoroCfg,
     status: Status,
-    current_focus: u16,
+    round: u16,
 }
 
 impl Pomodoro {
@@ -46,13 +46,13 @@ impl Pomodoro {
             timer,
             config,
             status: Status::Focus,
-            current_focus: 1,
+            round: 1,
         }
     }
 
     pub fn update_config(&mut self, new: PomodoroCfg) {
         if new.rounds < self.config.rounds {
-            self.current_focus = 1;
+            self.round = 1;
         }
         self.config = new;
         self.reset();
@@ -82,15 +82,15 @@ impl Pomodoro {
     pub fn next(&mut self) -> Status {
         let status = match self.status {
             Status::Long => {
-                self.current_focus = 1;
+                self.round = 1;
                 Status::Focus
             }
             Status::Short => {
-                self.current_focus += 1;
+                self.round += 1;
                 Status::Focus
             }
             Status::Focus => {
-                if self.current_focus >= self.config.rounds {
+                if self.round >= self.config.rounds {
                     Status::Long
                 } else {
                     Status::Short
@@ -130,8 +130,8 @@ impl Pomodoro {
         self.timer.is_running()
     }
 
-    pub fn current_focus(&self) -> u16 {
-        self.current_focus
+    pub fn round(&self) -> u16 {
+        self.round
     }
 }
 

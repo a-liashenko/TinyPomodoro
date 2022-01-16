@@ -44,7 +44,7 @@ impl AppComponent for Controls {
             ui.add_space(15.0);
 
             ui.vertical(|ui| {
-                let current = ctx.pomodoro.current_focus();
+                let current = ctx.pomodoro.round();
                 let max = ctx.config.pomodoro.rounds;
 
                 if Self::draw_rounds(ui, current, max).clicked() {

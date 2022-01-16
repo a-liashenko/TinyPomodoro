@@ -7,7 +7,7 @@ use crate::pomodoro::Status;
 use crate::{pomodoro::Pomodoro, resources::ResourceLoader};
 
 use eframe::egui::{Context, Stroke};
-use eframe::{GlWindow, Window};
+use eframe::{winit::window::Window, GlWindow};
 
 mod components;
 mod egui_app;
@@ -82,6 +82,7 @@ impl App {
     }
 
     fn process_timer(&mut self) {
+        use eframe::winit::window::UserAttentionType;
         let status = match self.pomodoro.try_next() {
             Some(v) => v,
             None => return,
@@ -92,6 +93,8 @@ impl App {
         }
 
         self.circle.foreground = Some(Self::status_stroke(&self.config, status));
+        self.window()
+            .request_user_attention(Some(UserAttentionType::Critical));
     }
 
     fn window(&self) -> &Window {

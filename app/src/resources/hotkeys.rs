@@ -50,7 +50,7 @@ impl Hotkeys {
             Binding::new(
                 Key::M,
                 Modifiers {
-                    ctrl: true,
+                    alt: true,
                     ..Default::default()
                 },
             ),

@@ -78,6 +78,9 @@ impl App {
         match action {
             Actions::ToggleTimer => self.pomodoro.toggle(),
             Actions::ResetTimer => self.pomodoro.reset(),
+            Actions::ToggleMinimized => {
+                // TODO: Add window helper for multiple OS
+            }
         }
     }
 

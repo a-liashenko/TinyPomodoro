@@ -32,7 +32,7 @@ pub fn load_fonts() -> FontDefinitions {
 
     fonts
         .family_and_size
-        .insert(TextStyle::Button, (FontFamily::Proportional, 18.0));
+        .insert(TextStyle::Button, (FontFamily::Monospace, 18.0));
 
     fonts
         .family_and_size

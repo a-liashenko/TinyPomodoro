@@ -7,6 +7,7 @@ use crate::pomodoro::Status;
 use crate::{pomodoro::Pomodoro, resources::ResourceLoader};
 
 use eframe::egui::Stroke;
+use eframe::CreationContext;
 
 mod components;
 mod egui_app;
@@ -15,7 +16,6 @@ mod widgets;
 pub type GlWindow = glutin::ContextWrapper<glutin::PossiblyCurrent, glutin::window::Window>;
 
 pub struct App {
-    inited: bool,
     window: Rc<GlWindow>,
     resources: ResourceLoader,
     config: AppConfig,
@@ -27,9 +27,8 @@ pub struct App {
 }
 
 impl App {
-    pub fn from_config(config: AppConfig, window: Rc<GlWindow>) -> Self {
-        let resources = ResourceLoader::new(&config);
-
+    pub fn from_config(config: AppConfig, cc: &CreationContext) -> Self {
+        let mut resources = ResourceLoader::new(&config);
         let style = resources.visuals().widgets.noninteractive;
 
         let pomodoro = Pomodoro::new(config.pomodoro);
@@ -40,9 +39,14 @@ impl App {
             ..Default::default()
         };
 
+        resources
+            .load_runtime(&config, &cc.egui_ctx)
+            .expect("Failed to load Resources::Runtime");
+        cc.egui_ctx.set_visuals(resources.visuals().clone());
+        cc.egui_ctx.set_fonts(resources.fonts());
+
         Self {
-            inited: false,
-            window,
+            window: cc.win.clone(),
 
             config,
             resources,

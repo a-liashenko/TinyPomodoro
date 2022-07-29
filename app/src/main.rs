@@ -22,12 +22,8 @@ fn main() {
     };
 
     eframe::run_native(
-        "TinyPomodoro",
+        crate::defines::APP_NAME,
         native_options,
-        Box::new(move |_cc| {
-            let app = app::App::from_config(config, _cc.win.clone());
-            let app = Box::new(app);
-            app
-        }),
+        Box::new(move |cc| Box::new(app::App::from_config(config, cc))),
     );
 }

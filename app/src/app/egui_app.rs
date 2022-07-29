@@ -1,5 +1,5 @@
 use eframe::egui::{CentralPanel, Context};
-use eframe::{Frame, Storage};
+use eframe::Frame;
 
 use super::components::{AppComponent, MainPage, SettingsPage, Titlebar, Topbar, UIPages};
 use super::App;

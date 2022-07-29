@@ -2,7 +2,9 @@ use std::collections::HashMap;
 use std::sync::mpsc::{Receiver, Sender};
 use std::sync::{Arc, Mutex};
 use std::thread::JoinHandle;
-use windows::Win32::UI::Input::KeyboardAndMouse::{RegisterHotKey, UnregisterHotKey, MOD_NOREPEAT};
+use windows::Win32::UI::Input::KeyboardAndMouse::{
+    RegisterHotKey, UnregisterHotKey, HOT_KEY_MODIFIERS, MOD_NOREPEAT,
+};
 use windows::Win32::UI::WindowsAndMessaging::{PeekMessageW, PM_REMOVE, WM_HOTKEY};
 
 use super::actions::Action;
@@ -62,11 +64,18 @@ impl WinHotkeys {
                     Action::Exit => break,
                     Action::Register { key, modifier, id } => {
                         let modifier = match modifier {
-                            None => MOD_NOREPEAT,
-                            Some(v) => v | MOD_NOREPEAT,
+                            None => MOD_NOREPEAT.0,
+                            Some(v) => v | MOD_NOREPEAT.0,
                         };
-                        unsafe { RegisterHotKey(None, id, modifier | MOD_NOREPEAT, key) }
-                            .expect("Failed to register hotkey")
+                        unsafe {
+                            RegisterHotKey(
+                                None,
+                                id,
+                                HOT_KEY_MODIFIERS(modifier | MOD_NOREPEAT.0),
+                                key,
+                            )
+                        }
+                        .expect("Failed to register hotkey")
                     }
                     Action::Unregister { id } => unsafe {
                         UnregisterHotKey(None, id);

@@ -16,7 +16,7 @@ impl From<Modifiers> for Mod {
             Modifiers::Control => MOD_CONTROL,
             Modifiers::Command => MOD_WIN,
         };
-        Mod(m)
+        Mod(m.0)
     }
 }
 

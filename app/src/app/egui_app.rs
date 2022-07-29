@@ -13,10 +13,6 @@ impl eframe::App for App {
 
     fn update(&mut self, ctx: &Context, frame: &mut Frame) {
         if !self.inited {
-            ctx.set_visuals(self.resources.visuals().clone());
-            ctx.set_fonts(self.resources.fonts());
-            // ctx.set_debug_on_hover(true);
-
             self.resources
                 .load_runtime(&self.config, ctx)
                 .expect("Failed to load Resources::Runtime");
@@ -24,6 +20,8 @@ impl eframe::App for App {
             self.inited = true;
         }
 
+        ctx.set_visuals(self.resources.visuals().clone());
+        ctx.set_fonts(self.resources.fonts());
         self.process_timer();
         self.process_hotkeys();
 

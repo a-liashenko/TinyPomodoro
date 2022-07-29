@@ -1,47 +1,26 @@
 use crate::defines::fonts::{FONT_ROBOTO, FONT_ROBOTO_MONO};
-use eframe::egui::{FontData, FontDefinitions};
+use eframe::egui::{Context, FontData, FontDefinitions, Style, TextStyle};
+use eframe::epaint::FontId;
+
+pub fn register_fonts(style: &mut Style) {
+    use eframe::epaint::FontFamily::{Monospace, Proportional};
+    style.text_styles = [
+        (TextStyle::Body, FontId::new(21.0, Proportional)),
+        (TextStyle::Button, FontId::new(18.0, Monospace)),
+        (TextStyle::Monospace, FontId::new(18.0, Monospace)),
+        (TextStyle::Small, FontId::new(16.0, Proportional)),
+        (TextStyle::Heading, FontId::new(48.0, Proportional)),
+    ]
+    .into();
+}
 
 pub fn load_fonts() -> FontDefinitions {
-    use eframe::egui::{FontFamily, TextStyle};
-
     let mut fonts = FontDefinitions::default();
     let roboto = FontData::from_static(FONT_ROBOTO);
     let roboto_mono = FontData::from_static(FONT_ROBOTO_MONO);
 
     fonts.font_data.insert("roboto".into(), roboto);
     fonts.font_data.insert("roboto_mono".into(), roboto_mono);
-
-    // fonts.
-    //     .fonts_for_family
-    //     .get_mut(&FontFamily::Proportional)
-    //     .unwrap()
-    //     .insert(0, "roboto_mono".into());
-
-    // fonts
-    //     .fonts_for_family
-    //     .get_mut(&FontFamily::Monospace)
-    //     .unwrap()
-    //     .insert(0, "roboto".into());
-
-    // fonts
-    //     .family_and_size
-    //     .insert(TextStyle::Body, (FontFamily::Proportional, 21.0));
-
-    // fonts
-    //     .family_and_size
-    //     .insert(TextStyle::Button, (FontFamily::Monospace, 18.0));
-
-    // fonts
-    //     .family_and_size
-    //     .insert(TextStyle::Monospace, (FontFamily::Monospace, 18.0));
-
-    // fonts
-    //     .family_and_size
-    //     .insert(TextStyle::Small, (FontFamily::Proportional, 16.0));
-
-    // fonts
-    //     .family_and_size
-    //     .insert(TextStyle::Heading, (FontFamily::Proportional, 48.0));
 
     fonts
 }

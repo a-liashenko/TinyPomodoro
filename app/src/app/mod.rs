@@ -39,11 +39,11 @@ impl App {
             ..Default::default()
         };
 
+        cc.egui_ctx.set_visuals(resources.visuals().clone());
+        cc.egui_ctx.set_fonts(resources.fonts());
         resources
             .load_runtime(&config, &cc.egui_ctx)
             .expect("Failed to load Resources::Runtime");
-        cc.egui_ctx.set_visuals(resources.visuals().clone());
-        cc.egui_ctx.set_fonts(resources.fonts());
 
         Self {
             window: cc.win.clone(),

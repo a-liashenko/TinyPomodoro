@@ -1,4 +1,4 @@
-use eframe::{egui::Ui, epi::Frame};
+use eframe::{egui::Ui, Frame};
 
 mod controls;
 mod timer;
@@ -26,5 +26,5 @@ pub trait AppComponent {
     fn add(ctx: &mut Self::Context, ui: &mut Ui) {}
 
     #[allow(unused)]
-    fn with_frame(ctx: &mut Self::Context, ui: &mut Ui, frame: &Frame) {}
+    fn with_frame(ctx: &mut Self::Context, ui: &mut Ui, frame: &mut Frame) {}
 }

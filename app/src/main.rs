@@ -21,8 +21,13 @@ fn main() {
         ..Default::default()
     };
 
-    let app = app::App::from_config(config);
-
-    // eframe::run_native(Box::new(app), native_options);
-    eframe::run_with_native(app, &native_options);
+    eframe::run_native(
+        "TinyPomodoro",
+        native_options,
+        Box::new(move |_cc| {
+            let app = app::App::from_config(config, _cc.win.clone());
+            let app = Box::new(app);
+            app
+        }),
+    );
 }

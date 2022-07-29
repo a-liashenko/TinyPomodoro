@@ -1,4 +1,4 @@
-use std::sync::Arc;
+use std::rc::Rc;
 
 use self::components::UIPages;
 use self::widgets::CircleConfig;
@@ -7,14 +7,16 @@ use crate::pomodoro::Status;
 use crate::{pomodoro::Pomodoro, resources::ResourceLoader};
 
 use eframe::egui::Stroke;
-use eframe::{winit::window::Window, GlWindow};
 
 mod components;
 mod egui_app;
 mod widgets;
 
+pub type GlWindow = glutin::ContextWrapper<glutin::PossiblyCurrent, glutin::window::Window>;
+
 pub struct App {
-    window: Option<Arc<GlWindow>>,
+    inited: bool,
+    window: Rc<GlWindow>,
     resources: ResourceLoader,
     config: AppConfig,
 
@@ -24,15 +26,8 @@ pub struct App {
     page: UIPages,
 }
 
-impl Default for App {
-    fn default() -> Self {
-        let cfg = AppConfig::default();
-        Self::from_config(cfg)
-    }
-}
-
 impl App {
-    pub fn from_config(config: AppConfig) -> Self {
+    pub fn from_config(config: AppConfig, window: Rc<GlWindow>) -> Self {
         let resources = ResourceLoader::new(&config);
 
         let style = resources.visuals().widgets.noninteractive;
@@ -46,7 +41,8 @@ impl App {
         };
 
         Self {
-            window: None,
+            inited: false,
+            window,
 
             config,
             resources,
@@ -84,7 +80,7 @@ impl App {
     }
 
     fn process_timer(&mut self) {
-        use eframe::winit::window::UserAttentionType;
+        use winit::window::UserAttentionType;
         let status = match self.pomodoro.try_next() {
             Some(v) => v,
             None => return,
@@ -102,7 +98,7 @@ impl App {
         }
     }
 
-    fn window(&self) -> &Window {
-        self.window.as_ref().unwrap().window()
+    fn window(&self) -> &glutin::window::Window {
+        self.window.window()
     }
 }

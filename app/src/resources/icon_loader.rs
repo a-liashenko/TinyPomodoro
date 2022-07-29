@@ -1,6 +1,6 @@
 use super::icon::Icon;
 use anyhow::Result;
-use eframe::epi::TextureAllocator;
+use eframe::egui::Context;
 
 use crate::defines::icons::*;
 
@@ -24,7 +24,7 @@ pub struct Icons {
 }
 
 impl Icons {
-    pub fn preload(alloc: &impl TextureAllocator) -> Result<Self> {
+    pub fn preload(alloc: &Context) -> Result<Self> {
         let this = Self {
             play: Icon::from_svg(ICON_PLAY, (64, 64), alloc)?,
             pause: Icon::from_svg(ICON_PAUSE, (64, 64), alloc)?,

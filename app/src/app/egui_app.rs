@@ -1,29 +1,29 @@
-use eframe::{
-    egui::{CentralPanel, Context},
-    epi::{Frame, Storage},
-    GlWindow, WithGL,
-};
+use eframe::egui::{CentralPanel, Context};
+use eframe::{Frame, Storage};
 
 use super::components::{AppComponent, MainPage, SettingsPage, Titlebar, Topbar, UIPages};
 use super::App;
 
-impl eframe::epi::App for App {
-    fn on_exit(&mut self) {
+impl eframe::App for App {
+    fn on_exit_event(&mut self) -> bool {
         // TODO: Show error
         let _err = self.config.save();
+        true
     }
 
-    fn setup(&mut self, ctx: &Context, frame: &Frame, _storage: Option<&dyn Storage>) {
-        ctx.set_visuals(self.resources.visuals().clone());
-        ctx.set_fonts(self.resources.fonts());
-        // ctx.set_debug_on_hover(true);
+    fn update(&mut self, ctx: &Context, frame: &mut Frame) {
+        if !self.inited {
+            ctx.set_visuals(self.resources.visuals().clone());
+            ctx.set_fonts(self.resources.fonts());
+            // ctx.set_debug_on_hover(true);
 
-        self.resources
-            .load_runtime(&self.config, frame)
-            .expect("Failed to load Resources::Runtime");
-    }
+            self.resources
+                .load_runtime(&self.config, ctx)
+                .expect("Failed to load Resources::Runtime");
 
-    fn update(&mut self, ctx: &Context, frame: &Frame) {
+            self.inited = true;
+        }
+
         self.process_timer();
         self.process_hotkeys();
 
@@ -40,21 +40,11 @@ impl eframe::epi::App for App {
         });
     }
 
-    fn name(&self) -> &str {
-        crate::defines::APP_NAME
-    }
-
     fn warm_up_enabled(&self) -> bool {
         true
     }
 
-    fn clear_color(&self) -> eframe::egui::Rgba {
+    fn clear_color(&self, _visuals: &eframe::egui::Visuals) -> eframe::egui::Rgba {
         self.config.style.background.into()
-    }
-}
-
-impl WithGL for App {
-    fn set_window(&mut self, window: std::sync::Arc<GlWindow>) {
-        self.window = Some(window);
     }
 }

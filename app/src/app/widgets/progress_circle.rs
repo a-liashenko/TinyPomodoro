@@ -1,7 +1,10 @@
 use std::borrow::Cow;
 
-use eframe::egui::{
-    Align2, Color32, Painter, Pos2, Response, Sense, Shape, Stroke, TextStyle, Ui, Vec2, Widget,
+use eframe::{
+    egui::{
+        Align2, Color32, Painter, Pos2, Response, Sense, Shape, Stroke, TextStyle, Ui, Vec2, Widget,
+    },
+    epaint::FontId,
 };
 
 const CIRCLE_POINTS: f32 = 1500.0;
@@ -38,7 +41,7 @@ fn calc_foreground(radius: f32, center: Pos2, angle: f32) -> Vec<Pos2> {
         .collect()
 }
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone)]
 pub struct CircleConfig {
     pub radius: f32,
     pub background: Option<Stroke>,
@@ -69,17 +72,23 @@ pub struct ProgressCircle<'a> {
 
 impl<'a> ProgressCircle<'a> {
     fn draw_main_text(&self, mut center: Pos2, painter: &Painter) {
-        let (color, style) = self.config.text_main.unwrap_or_else(|| {
+        let (color, style) = &self.config.text_main.clone().unwrap_or_else(|| {
             let visuals = &painter.ctx().style().visuals.widgets.inactive;
             (visuals.fg_stroke.color, TextStyle::Heading)
         });
         center.y -= 14.0;
 
-        painter.text(center, Align2::CENTER_CENTER, &self.text_main, style, color);
+        painter.text(
+            center,
+            Align2::CENTER_CENTER,
+            &self.text_main,
+            FontId::monospace(32.0),
+            color.clone(),
+        );
     }
 
     fn draw_additional_text(&self, mut center: Pos2, painter: &Painter) {
-        let (color, style) = self.config.text_main.unwrap_or_else(|| {
+        let (color, style) = self.config.text_main.clone().unwrap_or_else(|| {
             let visuals = &painter.ctx().style().visuals.widgets.inactive;
             (visuals.fg_stroke.color, TextStyle::Body)
         });
@@ -89,8 +98,8 @@ impl<'a> ProgressCircle<'a> {
             center,
             Align2::CENTER_CENTER,
             &self.text_additional,
-            style,
-            color,
+            FontId::monospace(32.0),
+            color.clone(),
         );
     }
 

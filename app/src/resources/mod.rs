@@ -1,10 +1,7 @@
 use self::{hotkeys::Hotkeys, notification::Notification, runtime::Runtime, theme::Theme};
 use crate::config::AppConfig;
 use anyhow::Result;
-use eframe::{
-    egui::{FontDefinitions, Style, Visuals},
-    epi::Frame,
-};
+use eframe::egui::{Context, FontDefinitions, Style, Visuals};
 
 pub mod icon;
 
@@ -48,8 +45,8 @@ impl ResourceLoader {
             .expect("Resources runtime not allocated")
     }
 
-    pub fn load_runtime(&mut self, cfg: &AppConfig, frame: &Frame) -> Result<()> {
-        let runtime = Runtime::new(cfg, frame)?;
+    pub fn load_runtime(&mut self, cfg: &AppConfig, ctx: &Context) -> Result<()> {
+        let runtime = Runtime::new(cfg, ctx)?;
         self.runtime = Some(runtime);
         Ok(())
     }

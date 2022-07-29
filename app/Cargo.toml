@@ -16,7 +16,9 @@ serde_yaml = "0.8"
 rodio = {version = "0.14.0", features = ["wav"], default-features = false}
 
 # Ui
-eframe = {version = "0.16.0", features = ["egui_glow"], default-features = false}
+eframe = {git = "https://github.com/AlexxxRu/egui.git", branch = "feature/forward_window"}
+glutin = {version = "0.28.0"}
+winit = "0.26.1"
 
 # SVG Render
 resvg = "0.19.0"

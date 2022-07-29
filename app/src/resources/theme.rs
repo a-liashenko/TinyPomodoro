@@ -12,7 +12,7 @@ impl Theme {
         let mut visuals = Visuals::dark();
         visuals.widgets.noninteractive.bg_fill = cfg.background;
         visuals.widgets.noninteractive.fg_stroke.color = cfg.foreground;
-        visuals.widgets.noninteractive.corner_radius = 0.0;
+        visuals.widgets.noninteractive.rounding = 0.0.into();
 
         let mut slider = Style {
             visuals: visuals.clone(),

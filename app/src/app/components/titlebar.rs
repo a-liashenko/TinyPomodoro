@@ -1,5 +1,5 @@
 use eframe::egui::{Color32, Layout, Rect, Sense, Shape, Stroke, Ui};
-use eframe::epi::Frame;
+use eframe::Frame;
 
 use super::AppComponent;
 use crate::app::widgets::IconToggle;
@@ -15,7 +15,7 @@ pub struct Titlebar;
 impl AppComponent for Titlebar {
     type Context = App;
 
-    fn with_frame(ctx: &mut Self::Context, ui: &mut Ui, frame: &Frame) {
+    fn with_frame(ctx: &mut Self::Context, ui: &mut Ui, frame: &mut Frame) {
         let width = ui.available_width();
 
         ui.horizontal(|ui| {

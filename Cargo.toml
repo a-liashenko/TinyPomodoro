@@ -6,7 +6,7 @@ members = [
 
 [patch.crates-io]
 # eframe = {path = "../egui/eframe"}
-eframe = {git = "https://github.com/AlexxxRu/egui.git", branch = "feature/forward_window"}
+# eframe = {git = "https://github.com/AlexxxRu/egui.git", branch = "feature/forward_window"}
 
 [profile.release]
 codegen-units = 1

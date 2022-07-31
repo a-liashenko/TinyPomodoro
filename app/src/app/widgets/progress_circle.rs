@@ -82,7 +82,7 @@ impl<'a> ProgressCircle<'a> {
             center,
             Align2::CENTER_CENTER,
             &self.text_main,
-            FontId::monospace(32.0),
+            FontId::monospace(48.0),
             color.clone(),
         );
     }
@@ -98,7 +98,7 @@ impl<'a> ProgressCircle<'a> {
             center,
             Align2::CENTER_CENTER,
             &self.text_additional,
-            FontId::monospace(32.0),
+            FontId::proportional(16.0),
             color.clone(),
         );
     }

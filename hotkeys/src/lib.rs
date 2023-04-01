@@ -3,6 +3,11 @@ mod windows;
 #[cfg(target_os = "windows")]
 pub use self::windows::WinHotkeys as HotkeyManager;
 
+#[cfg(not(target_os = "windows"))]
+mod non_windows;
+#[cfg(not(target_os = "windows"))]
+pub use self::non_windows::HotkeyManager;
+
 #[derive(Debug, Clone, Copy)]
 pub enum Modifiers {
     Alt,

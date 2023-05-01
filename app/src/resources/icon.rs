@@ -2,11 +2,11 @@ use anyhow::Result;
 use eframe::egui::{Context, TextureId};
 use eframe::epaint::{ColorImage, ImageData};
 use tiny_skia::Pixmap;
-use usvg::FitTo;
+use resvg::FitTo;
 
 fn render_svg(svg: &[u8], [width, height]: [usize; 2]) -> Result<Pixmap> {
     let opts = usvg::Options::default();
-    let tree = usvg::Tree::from_data(svg, &opts.to_ref())?;
+    let tree = usvg::TreeParsing::from_data(svg, &opts)?;
 
     let pixmap_size = usvg::Size::new(width as f64, height as f64)
         .unwrap()
@@ -15,6 +15,7 @@ fn render_svg(svg: &[u8], [width, height]: [usize; 2]) -> Result<Pixmap> {
     resvg::render(
         &tree,
         FitTo::Size(width as u32, height as u32),
+        tiny_skia::Transform::identity(),
         pixmap.as_mut(),
     )
     .ok_or(anyhow::anyhow!("Failed to render SVG"))?;

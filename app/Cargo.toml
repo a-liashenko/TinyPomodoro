@@ -8,22 +8,22 @@ version = "0.1.0"
 anyhow = "1.0.51"
 chrono = {version = "0.4", features = ["serde"]}
 colorsys = "0.6.5"
-dirs = "4.0.0"
+dirs = "5.0.0"
 serde = {version = "1.0.132", features = ["derive"]}
-serde_yaml = "0.8"
+serde_yaml = "0.9.21"
 
 # Sound
-rodio = {version = "0.14.0", features = ["wav"], default-features = false}
+rodio = {version = "0.17.1", features = ["wav"], default-features = false}
 
 # Ui
 eframe = {git = "https://github.com/AlexxxRu/egui.git", branch = "feature/forward_window"}
 glutin = {version = "0.28.0"}
-winit = "0.26.1"
+winit = "0.28.3"
 
 # SVG Render
-resvg = "0.19.0"
-tiny-skia = "0.6.1"
-usvg = "0.19.0"
+resvg = "0.32.0"
+tiny-skia = "0.9.0"
+usvg = "0.32.0"
 
 # hotkeys
 hotkeys = {path = "../hotkeys"}

@@ -84,7 +84,7 @@ impl App {
     }
 
     fn process_timer(&mut self) {
-        use winit::window::UserAttentionType;
+        use glutin::window::UserAttentionType;
         let status = match self.pomodoro.try_next() {
             Some(v) => v,
             None => return,

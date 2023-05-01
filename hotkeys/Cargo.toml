@@ -13,4 +13,4 @@ features = [
   "Win32_Foundation",
   "Win32_UI_WindowsAndMessaging",
 ]
-version = "0.39.0"
+version = "0.48.0"
